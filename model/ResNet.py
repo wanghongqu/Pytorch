@@ -45,6 +45,7 @@ class ResNet(nn.Module):
         self.block4 = self.__make_layers__(256, 6, 2)
         self.block5 = self.__make_layers__(512, 3, 2)
         self.block6 = nn.AdaptiveAvgPool2d(1)
+        self.block7 = nn.Dropout(0.5)
         self.linear = nn.Linear(512, 100)
 
         # self.apply(weight_init(self.modules()))
@@ -57,6 +58,7 @@ class ResNet(nn.Module):
         x = self.block5(x)
         x = self.block6(x)
         x = x.view(x.shape[0], -1)
+        x = self.block7(x)
         x = self.linear(x)
         return x;
 
